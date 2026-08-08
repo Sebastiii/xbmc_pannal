@@ -19024,6 +19024,18 @@ msgctxt "#60643"
 msgid "0.01 nits"
 msgstr "0,01 Nits"
 
+#. "Dolby Vision HDR Bypass"
+#: system/settings/settings.xml
+msgctxt "#60644"
+msgid "Disable DV black screen when starting or stopping playback"
+msgstr "DV-Schwarzbild beim Starten oder Stoppen der Wiedergabe deaktivieren"
+
+#. "Dolby Vision HDR Bypass"
+#: system/settings/settings.xml
+msgctxt "#60645"
+msgid "Skips the HDMI mode switch when entering or leaving Dolby Vision playback. Avoids black screens during transitions, but some TVs need the mode switch to pick up the Dolby Vision signalling correctly."
+msgstr "Überspringt den HDMI-Moduswechsel beim Starten oder Beenden der Dolby Vision-Wiedergabe. Verhindert schwarze Bildschirme bei Übergängen, aber einige Fernseher benötigen den Moduswechsel, um das Dolby Vision-Signal korrekt zu erkennen."
+
 msgctxt "#60069"
 msgid "HDR10 OSD peak brightness (nits)"
 msgstr "HDR10-OSD-Spitzenhelligkeit (Nits)"

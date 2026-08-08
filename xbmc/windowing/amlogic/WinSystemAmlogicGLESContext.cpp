@@ -87,10 +87,13 @@ bool CWinSystemAmlogicGLESContext::CreateNewWindow(const std::string& name,
 
   // If changing in or out of Dolby Vision and it is on then make sure we do a mode swtich - TODO: combine with DV InfoFrame?
   StreamHdrType hdrType = CServiceBroker::GetWinSystem()->GetGfxContext().GetHDRType();
-  bool force_mode_switch_by_dv = 
-      ((hdrType != m_hdrType) &&
-       ((hdrType == StreamHdrType::HDR_TYPE_DOLBYVISION) || (m_hdrType == StreamHdrType::HDR_TYPE_DOLBYVISION)) &&
-       (aml_dv_mode() != DV_MODE_OFF));
+  const auto bypass_dv_mode_switch_gui = CServiceBroker::GetSettingsComponent()->GetSettings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_HANDSHAKE_BYPASS);
+
+  bool force_mode_switch_by_dv = !bypass_dv_mode_switch_gui &&
+                                 ((hdrType != m_hdrType) &&
+                                  ((hdrType == StreamHdrType::HDR_TYPE_DOLBYVISION) ||
+                                   (m_hdrType == StreamHdrType::HDR_TYPE_DOLBYVISION)) &&
+                                  (aml_dv_mode() != DV_MODE_OFF));
 
   // get current used resolution
   if (!aml_get_native_resolution(&current_resolution))
@@ -102,11 +105,12 @@ bool CWinSystemAmlogicGLESContext::CreateNewWindow(const std::string& name,
   CLog::Log(LOGDEBUG, "CWinSystemAmlogicGLESContext::{}: "
     "m_bWindowCreated: {}, "
     "frac rate {:d}({:d}), "
-    "hdrType: {}({}), force mode switch: {}",
+    "hdrType: {}({}), force mode switch: {}, bypass DV switch: {}",
     __FUNCTION__,
     m_bWindowCreated,
     fractional_rate, cur_fractional_rate,
-    CStreamDetails::DynamicRangeToString(hdrType), CStreamDetails::DynamicRangeToString(m_hdrType), force_mode_switch_by_dv);
+    CStreamDetails::DynamicRangeToString(hdrType), CStreamDetails::DynamicRangeToString(m_hdrType), force_mode_switch_by_dv, bypass_dv_mode_switch_gui);
+
   CLog::Log(LOGDEBUG, "CWinSystemAmlogicGLESContext::{}: "
     "cur: iWidth: {:04d}, iHeight: {:04d}, iScreenWidth: {:04d}, iScreenHeight: {:04d}, fRefreshRate: {:02.2f}, dwFlags: {:02x}",
     __FUNCTION__,
