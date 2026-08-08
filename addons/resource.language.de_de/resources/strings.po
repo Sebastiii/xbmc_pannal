@@ -19024,6 +19024,18 @@ msgctxt "#60643"
 msgid "0.01 nits"
 msgstr "0,01 Nits"
 
+#. "Keep SDR state on stop"
+#: system/settings/settings.xml
+msgctxt "#60646"
+msgid "Keep SDR output state on playback stop"
+msgstr "SDR-Ausgabeformat beim Stoppen der Wiedergabe beibehalten"
+
+#. "Keep SDR output state on playback stop"
+#: system/settings/settings.xml
+msgctxt "#60647"
+msgid "Prevents shutting down the Dolby Vision pipeline on playback stop when outputting SDR under On Demand mode, avoiding screen blinks when returning to the GUI."
+msgstr "Verhindert das Herunterfahren der Dolby Vision-Pipeline beim Stoppen der Wiedergabe im On-Demand-Modus, wenn SDR ausgegeben wird, und vermeidet so Bildschirmflackern bei der Rückkehr zur Benutzeroberfläche."
+
 msgctxt "#60069"
 msgid "HDR10 OSD peak brightness (nits)"
 msgstr "HDR10-OSD-Spitzenhelligkeit (Nits)"
