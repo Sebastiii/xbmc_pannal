@@ -2247,6 +2247,8 @@ const infomap system_labels[] = {
     {"cpufrequency", SYSTEM_CPUFREQUENCY},
     {"screenresolution", SYSTEM_SCREEN_RESOLUTION},
     {"videoencoderinfo", SYSTEM_VIDEO_ENCODER_INFO},
+    {"guiresolution", SYSTEM_GUI_RESOLUTION},
+    {"displayoutputmode", SYSTEM_DISPLAY_OUTPUT_MODE},
     {"profilename", SYSTEM_PROFILENAME},
     {"profilethumb", SYSTEM_PROFILETHUMB},
     {"profilecount", SYSTEM_PROFILECOUNT},
