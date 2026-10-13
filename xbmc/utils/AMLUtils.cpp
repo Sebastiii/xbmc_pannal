@@ -973,6 +973,29 @@ void set_vsvdb_payload_ver(enum DV_TYPE dv_type, int max_lum_nits_value, int sou
   }
 }
 
+// Push the freshly derived VSVDB payload to a running DV core so a Max
+// luminance change applies without restarting playback. The kernel reloads
+// the VSVDB while xbmc_dv_vsvdb_inject_num < 24 (load_dolby_vsvdb) and its
+// vsvdb_changed flag reconfigures the core on the next frame. VP modes use a
+// fixed payload chosen in aml_dv_on, so they are left alone.
+void aml_dv_refresh_vsvdb_live()
+{
+  CDVCoreGuard dvlock(__FUNCTION__);
+  if (!aml_is_dv_enable())
+    return;
+
+  const unsigned int dv_vp =
+      CSysfsPath("/sys/module/amdolby_vision/parameters/xbmc_dv_vp").Get<unsigned int>().value_or(0);
+  if (dv_vp != 0)
+    return;
+
+  const std::string payload(settings()->GetString(CSettings::SETTING_COREELEC_AMLOGIC_DV_VSVDB_PAYLOAD));
+  CSysfsPath("/sys/module/amdolby_vision/parameters/xbmc_dv_vsvdb_payload", payload);
+  CSysfsPath("/sys/module/amdolby_vision/parameters/xbmc_dv_vsvdb_inject_num", 0u);
+  CLog::Log(LOGINFO, "AMLUtils::{} - VSVDB max {} nits, payload [{}] pushed live", __FUNCTION__,
+            settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VSVDB_MAX_LUM), payload);
+}
+
 // Static flag for kernel-side 422 forcing during DV/HDR10+ playback
 static bool aml_linux_force_422 = false;
 
