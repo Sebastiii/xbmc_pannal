@@ -1225,6 +1225,7 @@ unsigned int aml_dv_on(unsigned int mode, bool force_hdmi)
   // skipped (e.g. VP enabled while playing HDR10->SDR).
   aml_dv_set_sdr_source_max_nits(aml_dv_sdr_boost_param());
   aml_dv_set_sdr_keep_ext(settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_PER_FRAME_METADATA));
+  aml_dv_set_sdr_new_backend(settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND));
   aml_dv_set_target_min_lum(settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_TARGET_MIN_LUM));
 
   if (dv_vp != 0)
@@ -2051,6 +2052,15 @@ int aml_dv_sdr_boost_param()
   if (mode == 2)
     return settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_SRC_MAX_NITS);
   return mode;
+}
+
+// Experimental route of native DV to SDR through the newer backend; kernels
+// without the parameter keep the legacy library, so a missing node is fine.
+void aml_dv_set_sdr_new_backend(bool enable)
+{
+  CSysfsPath route{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_sdr_route"};
+  if (route.Exists())
+    route.Set(enable ? 1u : 0u);
 }
 
 void aml_dv_set_sdr_keep_ext(bool keep)

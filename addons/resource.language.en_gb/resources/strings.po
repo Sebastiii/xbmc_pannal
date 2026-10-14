@@ -25964,6 +25964,15 @@ msgstr ""
 
 #. "Dolby Vision VS10 SDR Per-Frame Metadata"
 #: system/settings/settings.xml
+msgctxt "#60650"
+msgid "Use the newer Dolby library for SDR conversion"
+msgstr ""
+
+#. Help text for setting "Use the newer Dolby library for SDR conversion" of label #60650
+msgctxt "#60651"
+msgid "Experimental. Converts native Dolby Vision to SDR with the newer Dolby library (dovi5, CMv4.0 display management: Level 3 and Level 8 trims) instead of the original one (CMv2.9, Level 2 trims only), and shows the CMv4.0 options for SDR output. Needs a kernel with the xbmc_dv_new_sdr_route parameter; if the newer library rejects a title, playback falls back to the original one. Applies from the next playback."
+msgstr ""
+
 msgctxt "#60637"
 msgid "Lets the Dolby engine use the source's dynamic metadata (per-scene brightness anchors and the colorist's SDR trims) when converting DV to SDR via VS10, so dark and bright scenes each get their own tone curve instead of one static curve for the whole title. Disable to restore the previous static tone mapping if brightness looks wrong. Only affects DV sources."
 msgstr ""
