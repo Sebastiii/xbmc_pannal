@@ -214,7 +214,7 @@ void aml_dv_set_hdr10_osd_brightness(int nits);
 int  aml_dv_sdr_boost_param();
 void aml_dv_set_sdr_source_max_nits(int value);
 void aml_dv_set_sdr_keep_ext(bool keep);
-void aml_dv_set_sdr_new_backend(bool enable);
+void aml_dv_set_sdr_new_backend(bool enable, bool allSources);
 void aml_dv_set_target_min_lum(int value);
 bool aml_is_dv_enable();
 void aml_dv_display_trigger();

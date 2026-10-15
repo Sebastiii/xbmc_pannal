@@ -5023,6 +5023,32 @@
           </dependencies>
           <control type="toggle" />
         </setting>
+        <setting id="coreelec.amlogic.dolbyvision.vs10.sdr.new.backend.all" type="boolean" label="60652" help="60653" parent="coreelec.amlogic.dolbyvision.vs10.sdr.new.backend">
+          <requirement>HAVE_AMCODEC</requirement>
+          <visible>false</visible>
+          <level>2</level>
+          <default>false</default>
+          <dependencies>
+            <dependency type="visible" setting="coreelec.amlogic.dolbyvision.mode" operator="!is">2</dependency>
+            <dependency type="visible" setting="coreelec.amlogic.dolbyvision.video.processor" operator="is">0</dependency>
+            <dependency type="visible">
+              <and>
+                <condition on="property" name="dvnewbackendavailable" />
+                <or>
+                  <condition setting="coreelec.amlogic.dolbyvision.type" operator="is">1</condition>
+                  <condition setting="coreelec.amlogic.dolbyvision.type" operator="is">2</condition>
+                  <condition setting="coreelec.amlogic.dolbyvision.type" operator="is">4</condition>
+                </or>
+                <or>
+                  <condition setting="coreelec.amlogic.dolbyvision.vs10.dv" operator="is">3</condition>
+                  <condition setting="coreelec.amlogic.dolbyvision.vs10.dv" operator="is">4</condition>
+                </or>
+                <condition setting="coreelec.amlogic.dolbyvision.vs10.sdr.new.backend" operator="is">true</condition>
+              </and>
+            </dependency>
+          </dependencies>
+          <control type="toggle" />
+        </setting>
         <setting id="coreelec.amlogic.dolbyvision.vs10.target.min.lum" type="integer" label="60638" help="60639" parent="coreelec.amlogic.dolbyvision.type">
           <requirement>HAVE_AMCODEC</requirement>
           <visible>false</visible>
