@@ -25982,6 +25982,15 @@ msgctxt "#60653"
 msgid "Experimental. Also converts SDR, HDR10, HLG and HDR10+ (and HDR10+ converted to Dolby Vision) to SDR with the newer Dolby library, the way native Dolby Vision is converted, whenever their VS10 output is SDR. Needs a kernel with the xbmc_dv_new_vs10_route parameter; output above 50 Hz and titles the newer library rejects stay on the original one. Applies from the next playback."
 msgstr ""
 
+msgctxt "#60655"
+msgid "Use the content light level as the HDR10 source peak"
+msgstr ""
+
+#. Help text for setting "Use the content light level as the HDR10 source peak" of label #60655
+msgctxt "#60656"
+msgid "When HDR10 is converted to SDR with the newer Dolby library, tone-maps for the title's MaxCLL instead of its mastering display peak whenever MaxCLL is lower, which keeps near-black detail the way HDR10+ and Dolby Vision get it from their dynamic metadata. A title with a wrong, too low MaxCLL would clip its highlights: disable this option for it. Needs a kernel with the xbmc_dv_new_hdr10_cll_peak parameter. Applies from the next playback."
+msgstr ""
+
 msgctxt "#60637"
 msgid "Lets the Dolby engine use the source's dynamic metadata (per-scene brightness anchors and the colorist's SDR trims) when converting DV to SDR via VS10, so dark and bright scenes each get their own tone curve instead of one static curve for the whole title. Disable to restore the previous static tone mapping if brightness looks wrong. Only affects DV sources."
 msgstr ""

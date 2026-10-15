@@ -1227,7 +1227,8 @@ unsigned int aml_dv_on(unsigned int mode, bool force_hdmi)
   aml_dv_set_sdr_keep_ext(settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_PER_FRAME_METADATA));
   aml_dv_set_sdr_new_backend(
       settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND),
-      settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_ALL));
+      settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_ALL),
+      settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_CLL_PEAK));
   aml_dv_set_target_min_lum(settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_TARGET_MIN_LUM));
 
   if (dv_vp != 0)
@@ -2057,9 +2058,10 @@ int aml_dv_sdr_boost_param()
 }
 
 // Experimental route of native DV (and, with allSources, every VS10 source)
-// to SDR through the newer backend; kernels without the parameters keep the
-// legacy library, so a missing node is fine.
-void aml_dv_set_sdr_new_backend(bool enable, bool allSources)
+// to SDR through the newer backend, with cllPeak taking MaxCLL as the HDR10
+// source peak; kernels without the parameters keep the legacy library and
+// mastering peak, so a missing node is fine.
+void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak)
 {
   CSysfsPath route{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_sdr_route"};
   if (route.Exists())
@@ -2067,6 +2069,9 @@ void aml_dv_set_sdr_new_backend(bool enable, bool allSources)
   CSysfsPath vs10{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_vs10_route"};
   if (vs10.Exists())
     vs10.Set(enable && allSources ? 1u : 0u);
+  CSysfsPath cll{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_hdr10_cll_peak"};
+  if (cll.Exists())
+    cll.Set(enable && allSources && cllPeak ? 1u : 0u);
 }
 
 void aml_dv_set_sdr_keep_ext(bool keep)
