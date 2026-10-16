@@ -25991,6 +25991,16 @@ msgctxt "#60656"
 msgid "When HDR10 is converted to SDR with the newer Dolby library, tone-maps for the title's MaxCLL instead of its mastering display peak whenever MaxCLL is lower, which keeps near-black detail the way HDR10+ and Dolby Vision get it from their dynamic metadata. A title with a wrong, too low MaxCLL would clip its highlights: disable this option for it. Needs a kernel with the xbmc_dv_new_hdr10_cll_peak parameter. Applies from the next playback."
 msgstr ""
 
+#. Label of setting "Video / Dolby Vision -> Declare a 0-nit source black for HDR10 and HDR10+"
+msgctxt "#60657"
+msgid "Declare a 0-nit source black for HDR10 and HDR10+"
+msgstr ""
+
+#. Help text for setting "Declare a 0-nit source black for HDR10 and HDR10+" of label #60657
+msgctxt "#60658"
+msgid "When HDR10 or converted HDR10+ goes to SDR through the newer Dolby library, tells it the source black is 0 nit instead of the mastering display black (about 0.005 nit), as native Dolby Vision does. The darkest steps then stay visible instead of being mapped to black; highlights are unchanged. Needs a kernel with the xbmc_dv_new_src_black0 parameter. Applies from the next playback."
+msgstr ""
+
 msgctxt "#60637"
 msgid "Lets the Dolby engine use the source's dynamic metadata (per-scene brightness anchors and the colorist's SDR trims) when converting DV to SDR via VS10, so dark and bright scenes each get their own tone curve instead of one static curve for the whole title. Disable to restore the previous static tone mapping if brightness looks wrong. Only affects DV sources."
 msgstr ""
