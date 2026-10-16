@@ -290,10 +290,13 @@ std::vector<uint8_t> create_rpu_nalu_for_hdr10plus(
 // in L1 max, the lowest legal L1 avg and a fixed 100-nit trim. Validated in a blind
 // A/B against the measured peak on a P8.1 file built with dovi_tool from the same
 // values (core1 curve: 1000 nits rolled off to ~98, shadows lifted ~2x).
+// The trim is the median of the 100-nit trims of graded Dolby Vision titles
+// (Arrival, Wonder Woman, Lionsgate...): in a blind A/B it kept deeper blacks than
+// the strongest one (Fountain of Youth, 1337/2016/1081) for the same detail.
 constexpr std::uint16_t STATIC_L2_TARGET_MAX_PQ = 2081; // 100 nits
-constexpr std::uint16_t STATIC_L2_TRIM_SLOPE = 1337;
-constexpr std::uint16_t STATIC_L2_TRIM_OFFSET = 2016;
-constexpr std::uint16_t STATIC_L2_TRIM_POWER = 1081;
+constexpr std::uint16_t STATIC_L2_TRIM_SLOPE = 1680;
+constexpr std::uint16_t STATIC_L2_TRIM_OFFSET = 2020;
+constexpr std::uint16_t STATIC_L2_TRIM_POWER = 1475;
 
 static std::vector<uint8_t> last_static_rpu;
 static Hdr10PlusPqValues last_static_pq = {};
