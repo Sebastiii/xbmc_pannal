@@ -2063,6 +2063,18 @@ int aml_dv_sdr_boost_param()
 // source peak and srcBlack0 declaring a 0-nit HDR10/HDR10+ source black;
 // kernels without the parameters keep the legacy library, mastering peak and
 // black, so a missing node is fine.
+// HDR10 to SDR on the newer backend with the measured scene peak option: the
+// codec then turns on the decoder's double write and runs CAMLPeakMeter.
+bool aml_dv_hdr10_meas_peak_wanted()
+{
+  const int vs10 = settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_HDR10);
+  return settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND) &&
+         settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_ALL) &&
+         settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_MEAS_PEAK) &&
+         (vs10 == 3 || vs10 == 4) &&
+         CSysfsPath("/sys/module/amdolby_vision/parameters/xbmc_dv_new_hdr10_meas_peak").Exists();
+}
+
 void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak, bool srcBlack0)
 {
   CSysfsPath route{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_sdr_route"};
