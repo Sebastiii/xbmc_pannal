@@ -26018,7 +26018,7 @@ msgstr ""
 
 #. Help text for setting "Static 100-nit trim for sources without one" of label #60661
 msgctxt "#60662"
-msgid "When HDR10, HDR10+ or Dolby Vision goes to SDR through the newer Dolby library without a 100-nit trim, adds a constant one that lifts shadows and mid-tones, like the SDR trim of a Dolby Vision grade. Plain HDR10 is played as Dolby Vision profile 8.1 with one constant metadata (the title peak from MaxCLL, else the mastering display, and a low average), so its tone curve never changes and nothing pumps; the measured scene peak is then not used. HDR10+ keeps its per-scene metadata. Dolby Vision graded with its own 100-nit trim is left unchanged. The trim for HDR10+ and Dolby Vision needs a kernel with the xbmc_dv_new_static_trim parameter. Applies from the next playback."
+msgid "When HDR10, HDR10+ or Dolby Vision goes to SDR through the newer Dolby library without a 100-nit trim, adds a constant one that lifts shadows and mid-tones, like the SDR trim of a Dolby Vision grade. Plain HDR10 is played as Dolby Vision profile 8.1 with one constant metadata (the title peak from MaxCLL, else the mastering display, and a low average), so its tone curve never changes and nothing pumps; the measured scene peak is then not used. HDR10+ keeps its per-scene metadata unless \"Same static curve for HDR10+\" is on. Dolby Vision graded with its own 100-nit trim is left unchanged; Dolby Vision without one stays CMv2.9 (no CMv4.0 upgrade), as the newer library ignores the trim in CMv4.0. The trim for HDR10+ and Dolby Vision needs a kernel with the xbmc_dv_new_static_trim parameter. Applies from the next playback."
 msgstr ""
 
 #. Label of setting "Video / Dolby Vision -> Same static curve for HDR10+"

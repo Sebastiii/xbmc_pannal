@@ -2098,6 +2098,17 @@ bool aml_dv_hdr10plus_static_rpu_wanted()
          settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_HDR10PLUS_STATIC);
 }
 
+// Dolby Vision to SDR on the newer backend with the static trim option: the kernel
+// adds the 100-nit trim to metadata without one (xbmc_dv_new_static_trim).
+bool aml_dv_static_trim_wanted()
+{
+  const int vs10dv = settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_DV);
+  return settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND) &&
+         settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_ALL) &&
+         settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_STATIC_RPU) &&
+         (vs10dv == 3 || vs10dv == 4) && (aml_dv_type() != DV_TYPE_DISPLAY_LED);
+}
+
 void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak, bool srcBlack0,
                                 bool staticTrim)
 {

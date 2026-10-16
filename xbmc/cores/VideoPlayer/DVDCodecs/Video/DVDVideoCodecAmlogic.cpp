@@ -739,6 +739,13 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
           }
           m_stripCMv40Applied = stripCMv40;
 
+          if (aml_dv_static_trim_wanted())
+          {
+            CLog::Log(LOGINFO, "{}::{} - DV HEVC bitstream - static trim: RPUs without a 100-nit trim stay CMv2.9",
+                      __MODULE_NAME__, __FUNCTION__);
+            m_bitstream->SetStaticTrimKeepsCMv29(true);
+          }
+
           if (dualPriorityHdr10Plus)
           {
             CLog::Log(LOGINFO, "{}::{} - DV HEVC bitstream - if stream also contains HDR10+, native HDR10+ has priority.",
