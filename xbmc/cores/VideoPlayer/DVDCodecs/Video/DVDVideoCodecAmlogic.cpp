@@ -777,6 +777,14 @@ bool CDVDVideoCodecAmlogic::Open(CDVDStreamInfo &hints, CDVDCodecOptions &option
           m_bitstream->SetConvertHdr10PlusPeakBrightnessSource(peakBrightnessSource);
         }
 
+        // Plain HDR10 (no HDR10+ found on the first frame) gets one static Dolby Vision RPU.
+        if ((m_hints.hdrType == StreamHdrType::HDR_TYPE_HDR10) && aml_dv_hdr10_static_rpu_wanted())
+        {
+          CLog::Log(LOGINFO, "{}::{} - HDR10 HEVC bitstream - if not HDR10+ then a static Dolby Vision P8.1 RPU will be added",
+            __MODULE_NAME__, __FUNCTION__);
+          m_bitstream->SetConvertHdr10StaticRpu(true);
+        }
+
         // If HDR10 or Dual Priority HDR10+ and doing VS10 - remove the HDR10+ and DV if present to avoid conflict with VS10.
         if ((m_hints.hdrType == StreamHdrType::HDR_TYPE_HDR10) || dualPriorityHdr10Plus)
         {

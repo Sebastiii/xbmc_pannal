@@ -2075,6 +2075,20 @@ bool aml_dv_hdr10_meas_peak_wanted()
          CSysfsPath("/sys/module/amdolby_vision/parameters/xbmc_dv_new_hdr10_meas_peak").Exists();
 }
 
+// HDR10 to SDR on the newer backend with the static RPU option: the bitstream
+// converter adds one constant Dolby Vision RPU to every frame. The stream then
+// takes the DV route, so DV sources must go to SDR too, or the output would change.
+bool aml_dv_hdr10_static_rpu_wanted()
+{
+  const int vs10 = settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_HDR10);
+  const int vs10dv = settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_DV);
+  return settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND) &&
+         settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_ALL) &&
+         settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_STATIC_RPU) &&
+         (vs10 == 3 || vs10 == 4) && (vs10dv == 3 || vs10dv == 4) &&
+         (aml_dv_type() != DV_TYPE_DISPLAY_LED);
+}
+
 void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak, bool srcBlack0)
 {
   CSysfsPath route{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_sdr_route"};

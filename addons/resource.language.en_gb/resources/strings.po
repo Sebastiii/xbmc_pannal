@@ -26011,6 +26011,16 @@ msgctxt "#60660"
 msgid "When HDR10 goes to SDR through the newer Dolby library, measures the brightest part of the picture about eight times per second and tone-maps for that scene peak instead of the mastering display, the way Dolby Vision uses its per-scene metadata. The HEVC decoder then also writes a small uncompressed copy of each frame. Needs a kernel with the xbmc_dv_new_hdr10_meas_peak parameter. Applies from the next playback."
 msgstr ""
 
+#. Label of setting "Video / Dolby Vision -> Convert HDR10 to Dolby Vision with a static trim"
+msgctxt "#60661"
+msgid "Convert HDR10 to Dolby Vision with a static trim"
+msgstr ""
+
+#. Help text for setting "Convert HDR10 to Dolby Vision with a static trim" of label #60661
+msgctxt "#60662"
+msgid "When HDR10 without HDR10+ goes to SDR through the newer Dolby library, adds one constant Dolby Vision metadata to every frame: the title peak (MaxCLL, else the mastering display), a low average and a 100-nit trim that lifts shadows and mid-tones, like the SDR trim of a Dolby Vision grade. The tone curve never changes during playback, so there is no pumping. The stream is then played as Dolby Vision profile 8.1 and the measured scene peak is not used. Applies from the next playback."
+msgstr ""
+
 msgctxt "#60637"
 msgid "Lets the Dolby engine use the source's dynamic metadata (per-scene brightness anchors and the colorist's SDR trims) when converting DV to SDR via VS10, so dark and bright scenes each get their own tone curve instead of one static curve for the whole title. Disable to restore the previous static tone mapping if brightness looks wrong. Only affects DV sources."
 msgstr ""

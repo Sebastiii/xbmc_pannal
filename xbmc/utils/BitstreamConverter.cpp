@@ -1484,6 +1484,31 @@ void CBitstreamConverter::AddDoViRpuNalu(const Hdr10PlusMetadata& meta, uint8_t 
     m_convert_Hdr10Plus_peak_brightness_source, 
     m_hdrStaticMetadataInfo);
 
+  AddGeneratedDoViRpuNalu(nalu, poutbuf, poutbuf_size, pts);
+}
+
+void CBitstreamConverter::AddStaticDoViRpuNalu(uint8_t **poutbuf, int *poutbuf_size, double pts) {
+
+  // SEI values first; the container's when the stream carries no such SEI.
+  HDRStaticMetadataInfo info = m_hdrStaticMetadataInfo;
+  if (!info.has_mdcv_metadata && m_hints.masteringMetadata &&
+      m_hints.masteringMetadata->has_luminance)
+  {
+    info.max_lum = static_cast<uint32_t>(std::lrint(av_q2d(m_hints.masteringMetadata->max_luminance)));
+    info.min_lum = static_cast<uint32_t>(std::lrint(av_q2d(m_hints.masteringMetadata->min_luminance) * 10000.0));
+  }
+  if (!info.has_cll_metadata && m_hints.contentLightMetadata)
+  {
+    info.max_cll = static_cast<uint16_t>(m_hints.contentLightMetadata->MaxCLL);
+    info.max_fall = static_cast<uint16_t>(m_hints.contentLightMetadata->MaxFALL);
+  }
+
+  auto nalu = create_static_rpu_nalu_for_hdr10(info);
+  AddGeneratedDoViRpuNalu(nalu, poutbuf, poutbuf_size, pts);
+}
+
+void CBitstreamConverter::AddGeneratedDoViRpuNalu(std::vector<uint8_t>& nalu, uint8_t **poutbuf, int *poutbuf_size, double pts) {
+
   if (!nalu.empty())
   {
     if (m_first_frame) {
@@ -1884,6 +1909,19 @@ bool CBitstreamConverter::BitstreamConvert(uint8_t* pData, int iSize, uint8_t **
   // frame or the TV drops out of DV, so hold the last converted metadata.
   else if (m_lastHdr10PlusMetaValid && !au_has_rpu)
     AddDoViRpuNalu(m_lastHdr10PlusMeta, poutbuf, poutbuf_size, pts);
+  // Plain HDR10: decided on the first frame (no HDR10+ found, no RPU), then the
+  // same static RPU on every frame.
+  else if (m_convert_hdr10_static_rpu && !au_has_rpu)
+  {
+    if (m_first_frame)
+    {
+      m_hdr10_static_rpu_active = (m_hints.hdrType == StreamHdrType::HDR_TYPE_HDR10);
+      CLog::Log(LOGINFO, "CBitstreamConverter::BitstreamConvert: HDR10 static Dolby Vision RPU {}",
+                m_hdr10_static_rpu_active ? "on" : "off (not plain HDR10)");
+    }
+    if (m_hdr10_static_rpu_active)
+      AddStaticDoViRpuNalu(poutbuf, poutbuf_size, pts);
+  }
 
   m_first_frame = false;
 

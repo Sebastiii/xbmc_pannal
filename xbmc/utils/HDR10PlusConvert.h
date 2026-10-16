@@ -26,3 +26,6 @@ std::vector<uint8_t> create_rpu_nalu_for_hdr10plus(
   const Hdr10PlusMetadata& meta,
   const PeakBrightnessSource& peak_source,
   const HDRStaticMetadataInfo& hdrStaticMetadataInfo);
+
+std::vector<uint8_t> create_static_rpu_nalu_for_hdr10(
+  const HDRStaticMetadataInfo& hdrStaticMetadataInfo);
