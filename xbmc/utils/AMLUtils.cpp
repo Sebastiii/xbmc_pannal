@@ -1229,7 +1229,8 @@ unsigned int aml_dv_on(unsigned int mode, bool force_hdmi)
       settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND),
       settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_ALL),
       settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_CLL_PEAK),
-      settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_SRC_BLACK0));
+      settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_SRC_BLACK0),
+      settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_STATIC_RPU));
   aml_dv_set_target_min_lum(settings()->GetInt(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_TARGET_MIN_LUM));
 
   if (dv_vp != 0)
@@ -2089,7 +2090,8 @@ bool aml_dv_hdr10_static_rpu_wanted()
          (aml_dv_type() != DV_TYPE_DISPLAY_LED);
 }
 
-void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak, bool srcBlack0)
+void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak, bool srcBlack0,
+                                bool staticTrim)
 {
   CSysfsPath route{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_sdr_route"};
   if (route.Exists())
@@ -2103,6 +2105,11 @@ void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak, bool
   CSysfsPath black0{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_src_black0"};
   if (black0.Exists())
     black0.Set(enable && allSources && srcBlack0 ? 1u : 0u);
+  // Same 100-nit trim as the HDR10 static RPU, added kernel-side to DV metadata
+  // that has none (converted HDR10+, RPUs made without a trim pass).
+  CSysfsPath trim{"/sys/module/amdolby_vision/parameters/xbmc_dv_new_static_trim"};
+  if (trim.Exists())
+    trim.Set(enable && allSources && staticTrim ? 1u : 0u);
 }
 
 void aml_dv_set_sdr_keep_ext(bool keep)

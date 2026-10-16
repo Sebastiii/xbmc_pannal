@@ -26011,14 +26011,14 @@ msgctxt "#60660"
 msgid "When HDR10 goes to SDR through the newer Dolby library, measures the brightest part of the picture about eight times per second and tone-maps for that scene peak instead of the mastering display, the way Dolby Vision uses its per-scene metadata. The HEVC decoder then also writes a small uncompressed copy of each frame. Needs a kernel with the xbmc_dv_new_hdr10_meas_peak parameter. Applies from the next playback."
 msgstr ""
 
-#. Label of setting "Video / Dolby Vision -> Convert HDR10 to Dolby Vision with a static trim"
+#. Label of setting "Video / Dolby Vision -> Static 100-nit trim for sources without one"
 msgctxt "#60661"
-msgid "Convert HDR10 to Dolby Vision with a static trim"
+msgid "Static 100-nit trim for sources without one"
 msgstr ""
 
-#. Help text for setting "Convert HDR10 to Dolby Vision with a static trim" of label #60661
+#. Help text for setting "Static 100-nit trim for sources without one" of label #60661
 msgctxt "#60662"
-msgid "When HDR10 without HDR10+ goes to SDR through the newer Dolby library, adds one constant Dolby Vision metadata to every frame: the title peak (MaxCLL, else the mastering display), a low average and a 100-nit trim that lifts shadows and mid-tones, like the SDR trim of a Dolby Vision grade. The tone curve never changes during playback, so there is no pumping. The stream is then played as Dolby Vision profile 8.1 and the measured scene peak is not used. Applies from the next playback."
+msgid "When HDR10, HDR10+ or Dolby Vision goes to SDR through the newer Dolby library without a 100-nit trim, adds a constant one that lifts shadows and mid-tones, like the SDR trim of a Dolby Vision grade. Plain HDR10 is played as Dolby Vision profile 8.1 with one constant metadata (the title peak from MaxCLL, else the mastering display, and a low average), so its tone curve never changes and nothing pumps; the measured scene peak is then not used. HDR10+ keeps its per-scene metadata. Dolby Vision graded with its own 100-nit trim is left unchanged. The trim for HDR10+ and Dolby Vision needs a kernel with the xbmc_dv_new_static_trim parameter. Applies from the next playback."
 msgstr ""
 
 msgctxt "#60637"
