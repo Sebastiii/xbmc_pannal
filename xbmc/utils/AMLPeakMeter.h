@@ -27,7 +27,8 @@ public:
   ~CAMLPeakMeter() override;
 
   // srcWidth/srcHeight: coded size; the capture is the double-write copy (1/4 per side).
-  void Start(int srcWidth, int srcHeight);
+  // masteringPeak: the stream's mastering peak in nits (0 = unknown), caps each sample.
+  void Start(int srcWidth, int srcHeight, float masteringPeak);
   void Stop();
   // Seek/reset: forget the previous scene.
   void Flush() { m_flush = true; }
@@ -42,6 +43,7 @@ private:
   int m_width = 0;
   int m_height = 0;
   int m_step = 1;
+  float m_cap = 10000.0f;
   int m_written = -1;
   float m_out = 0.0f;
   std::deque<std::pair<int64_t, float>> m_window;

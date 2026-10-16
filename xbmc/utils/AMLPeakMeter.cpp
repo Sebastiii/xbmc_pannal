@@ -69,7 +69,7 @@ CAMLPeakMeter::~CAMLPeakMeter()
   Stop();
 }
 
-void CAMLPeakMeter::Start(int srcWidth, int srcHeight)
+void CAMLPeakMeter::Start(int srcWidth, int srcHeight, float masteringPeak)
 {
   Stop();
   // Requests smaller than the double-write copy are cropped, not scaled.
@@ -78,6 +78,7 @@ void CAMLPeakMeter::Start(int srcWidth, int srcHeight)
   if (m_width <= 0 || m_height <= 0 || !CSysfsPath(PEAK_PARAM).Exists())
     return;
   m_step = std::max(1, static_cast<int>(std::sqrt(m_width * m_height / static_cast<float>(SAMPLES))));
+  m_cap = masteringPeak > 0.0f ? masteringPeak : 10000.0f;
   m_written = -1;
   m_out = 0.0f;
   m_window.clear();
@@ -124,8 +125,10 @@ bool CAMLPeakMeter::Measure(float& nits)
       count++;
     }
   }
-  // A compressed-only frame read as NV21 is noise, mostly saturated.
-  if (!count || hist[255] > count / 4)
+  // A compressed-only frame read as NV21 is noise, mostly saturated; the first
+  // capture after open also is, with fewer saturated pixels but a 10000-nit
+  // percentile that the 2 s hold would then keep. No real grade sits there.
+  if (!count || hist[255] > count / 4 || hist[255] > static_cast<int>(count * (1.0f - PERCENTILE)))
     return false;
 
   int left = static_cast<int>(count * (1.0f - PERCENTILE));
@@ -176,6 +179,10 @@ void CAMLPeakMeter::Process()
       if (Measure(p))
       {
         const int64_t now = NowMs();
+        p = std::min(p, m_cap);
+        // first sample of a playback/seek: take it as is, nothing to decay from
+        if (m_window.empty())
+          m_out = p;
         m_window.emplace_back(now, p);
         while (!m_window.empty() && m_window.front().first < now - HOLD_MS)
           m_window.pop_front();

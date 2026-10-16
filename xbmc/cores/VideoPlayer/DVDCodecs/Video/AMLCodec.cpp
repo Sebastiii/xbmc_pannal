@@ -2641,7 +2641,10 @@ bool CAMLCodec::OpenDecoderInternal()
   {
     if (!m_peakMeter)
       m_peakMeter = std::make_unique<CAMLPeakMeter>();
-    m_peakMeter->Start(hints.width, hints.height);
+    float masteringPeak = 0.0f;
+    if (hints.masteringMetadata && hints.masteringMetadata->has_luminance)
+      masteringPeak = static_cast<float>(av_q2d(hints.masteringMetadata->max_luminance));
+    m_peakMeter->Start(hints.width, hints.height, masteringPeak);
   }
   // vcodec is open, update speed if it was
   // changed before VideoPlayer called OpenDecoder.
