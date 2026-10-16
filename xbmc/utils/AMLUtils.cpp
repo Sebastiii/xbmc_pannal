@@ -2090,6 +2090,14 @@ bool aml_dv_hdr10_static_rpu_wanted()
          (aml_dv_type() != DV_TYPE_DISPLAY_LED);
 }
 
+// Same static RPU for HDR10+: its per-scene metadata is dropped instead of
+// being converted to a per-scene Dolby Vision RPU.
+bool aml_dv_hdr10plus_static_rpu_wanted()
+{
+  return aml_dv_hdr10_static_rpu_wanted() &&
+         settings()->GetBool(CSettings::SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_HDR10PLUS_STATIC);
+}
+
 void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak, bool srcBlack0,
                                 bool staticTrim)
 {

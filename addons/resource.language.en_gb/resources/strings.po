@@ -26021,6 +26021,16 @@ msgctxt "#60662"
 msgid "When HDR10, HDR10+ or Dolby Vision goes to SDR through the newer Dolby library without a 100-nit trim, adds a constant one that lifts shadows and mid-tones, like the SDR trim of a Dolby Vision grade. Plain HDR10 is played as Dolby Vision profile 8.1 with one constant metadata (the title peak from MaxCLL, else the mastering display, and a low average), so its tone curve never changes and nothing pumps; the measured scene peak is then not used. HDR10+ keeps its per-scene metadata. Dolby Vision graded with its own 100-nit trim is left unchanged. The trim for HDR10+ and Dolby Vision needs a kernel with the xbmc_dv_new_static_trim parameter. Applies from the next playback."
 msgstr ""
 
+#. Label of setting "Video / Dolby Vision -> Same static curve for HDR10+"
+msgctxt "#60663"
+msgid "Same static curve for HDR10+"
+msgstr ""
+
+#. Help text for setting "Same static curve for HDR10+" of label #60663
+msgctxt "#60664"
+msgid "HDR10+ gets the same constant Dolby Vision metadata as HDR10 instead of a per-scene conversion of its dynamic metadata. HDR10+ scene metadata is made for HDR displays, so on a 100-nit SDR target it moves the tone curve a lot at each scene change. With one curve for the whole title nothing pumps and shadows keep their level. Titles that also carry Dolby Vision keep it. Applies from the next playback."
+msgstr ""
+
 msgctxt "#60637"
 msgid "Lets the Dolby engine use the source's dynamic metadata (per-scene brightness anchors and the colorist's SDR trims) when converting DV to SDR via VS10, so dark and bright scenes each get their own tone curve instead of one static curve for the whole title. Disable to restore the previous static tone mapping if brightness looks wrong. Only affects DV sources."
 msgstr ""

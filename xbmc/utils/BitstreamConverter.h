@@ -196,6 +196,7 @@ public:
   void              SetRemoveDovi(bool value) { m_removeDovi = value; }
   void              SetRemoveHdr10Plus(bool value) { m_removeHdr10Plus = value; }
   void              SetConvertHdr10StaticRpu(bool value) { m_convert_hdr10_static_rpu = value; }
+  void              SetHdr10PlusStaticRpu(bool value) { m_hdr10plus_static_rpu = value; }
 
   static bool       mpeg2_sequence_header(const uint8_t *data, const uint32_t size, mpeg2_sequence *sequence);
   static bool       h264_sequence_header(const uint8_t *data, const uint32_t size, h264_sequence *sequence);
@@ -280,6 +281,8 @@ protected:
   bool              m_lastHdr10PlusMetaValid{false};
   bool              m_convert_hdr10_static_rpu{false};
   bool              m_hdr10_static_rpu_active{false};
+  bool              m_hdr10plus_static_rpu{false};
+  bool              m_hdr10plus_dropped_for_static{false};
   enum PeakBrightnessSource m_convert_Hdr10Plus_peak_brightness_source;
   bool              m_first_frame;
   enum DOVICMv40Mode m_append_cmv40;

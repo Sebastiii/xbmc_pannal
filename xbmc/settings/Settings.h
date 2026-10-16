@@ -541,6 +541,7 @@ public:
   static constexpr auto SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_SRC_BLACK0 = "coreelec.amlogic.dolbyvision.vs10.sdr.new.backend.src.black0";
   static constexpr auto SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_MEAS_PEAK = "coreelec.amlogic.dolbyvision.vs10.sdr.new.backend.hdr10.meas.peak";
   static constexpr auto SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_STATIC_RPU = "coreelec.amlogic.dolbyvision.vs10.sdr.new.backend.hdr10.static.rpu";
+  static constexpr auto SETTING_COREELEC_AMLOGIC_DV_VS10_SDR_NEW_BACKEND_HDR10PLUS_STATIC = "coreelec.amlogic.dolbyvision.vs10.sdr.new.backend.hdr10plus.static";
   static constexpr auto SETTING_COREELEC_AMLOGIC_DV_VS10_TARGET_MIN_LUM = "coreelec.amlogic.dolbyvision.vs10.target.min.lum";
   static constexpr auto SETTING_COREELEC_AMLOGIC_DV_VS10_HDR10 = "coreelec.amlogic.dolbyvision.vs10.hdr10";
   static constexpr auto SETTING_COREELEC_AMLOGIC_DV_VS10_HDR10_OSD_BRIGHTNESS = "coreelec.amlogic.dolbyvision.vs10.hdr10.osd.brightness";

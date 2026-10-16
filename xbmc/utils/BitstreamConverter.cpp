@@ -1581,12 +1581,22 @@ void CBitstreamConverter::ProcessSeiPrefix(uint8_t *buf, int32_t nal_size, uint8
 
     bool convert = (considerAsHdr10Plus && m_convert_Hdr10Plus && !m_dual_priority_Hdr10Plus);
 
-    if (convert) {      
+    // HDR10+ alone on the static curve: drop its per-scene metadata and let the
+    // end of the access unit add the HDR10 static RPU instead of a converted one.
+    const bool toStatic = convert && !isDual && m_convert_hdr10_static_rpu && m_hdr10plus_static_rpu;
+    if (toStatic)
+    {
+      convert = false;
+      if (m_first_frame)
+        m_hdr10plus_dropped_for_static = true;
+    }
+
+    if (convert) {
       meta = res.value();
       convert_hdr10plus_meta = true;
     }
 
-    if (convert || m_removeHdr10Plus) {
+    if (convert || m_removeHdr10Plus || toStatic) {
       // Remove and carry forward remaining sei in nalu.
       auto nalu = CHevcSei::RemoveHdr10PlusFromSeiNalu(buf, nal_size);
       if (!nalu.empty())
@@ -1909,15 +1919,18 @@ bool CBitstreamConverter::BitstreamConvert(uint8_t* pData, int iSize, uint8_t **
   // frame or the TV drops out of DV, so hold the last converted metadata.
   else if (m_lastHdr10PlusMetaValid && !au_has_rpu)
     AddDoViRpuNalu(m_lastHdr10PlusMeta, poutbuf, poutbuf_size, pts);
-  // Plain HDR10: decided on the first frame (no HDR10+ found, no RPU), then the
-  // same static RPU on every frame.
+  // Plain HDR10, or HDR10+ whose metadata was dropped for the static curve:
+  // decided on the first frame (no RPU), then the same static RPU on every frame.
   else if (m_convert_hdr10_static_rpu && !au_has_rpu)
   {
     if (m_first_frame)
     {
-      m_hdr10_static_rpu_active = (m_hints.hdrType == StreamHdrType::HDR_TYPE_HDR10);
+      m_hdr10_static_rpu_active = (m_hints.hdrType == StreamHdrType::HDR_TYPE_HDR10) ||
+                                  m_hdr10plus_dropped_for_static;
       CLog::Log(LOGINFO, "CBitstreamConverter::BitstreamConvert: HDR10 static Dolby Vision RPU {}",
-                m_hdr10_static_rpu_active ? "on" : "off (not plain HDR10)");
+                !m_hdr10_static_rpu_active       ? "off (not plain HDR10)"
+                : m_hdr10plus_dropped_for_static ? "on (HDR10+ metadata dropped)"
+                                                 : "on");
     }
     if (m_hdr10_static_rpu_active)
       AddStaticDoViRpuNalu(poutbuf, poutbuf_size, pts);

@@ -218,6 +218,7 @@ void aml_dv_set_sdr_new_backend(bool enable, bool allSources, bool cllPeak, bool
                                 bool staticTrim);
 bool aml_dv_hdr10_meas_peak_wanted();
 bool aml_dv_hdr10_static_rpu_wanted();
+bool aml_dv_hdr10plus_static_rpu_wanted();
 void aml_dv_set_target_min_lum(int value);
 bool aml_is_dv_enable();
 void aml_dv_display_trigger();
